@@ -22,6 +22,7 @@ OPENROUTER_DEFAULT_BASE = "https://openrouter.ai/api/v1"
 LMSTUDIO_DEFAULT_BASE = "http://localhost:1234/v1"
 LLAMACPP_DEFAULT_BASE = "http://localhost:8080/v1"
 OLLAMA_DEFAULT_BASE = "http://localhost:11434"
+LQQQ_DEFAULT_BASE = "https://api.lqqq.cc/v1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -112,6 +113,15 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=KIMI_DEFAULT_BASE,
         proxy_attr="kimi_proxy",
         capabilities=("chat", "streaming", "tools"),
+    ),
+    "lqqq": ProviderDescriptor(
+        provider_id="lqqq",
+        transport_type="openai_chat",
+        credential_env="LQQQ_API_KEY",
+        credential_attr="lqqq_api_key",
+        default_base_url=LQQQ_DEFAULT_BASE,
+        proxy_attr="lqqq_proxy",
+        capabilities=("chat", "streaming", "tools", "thinking"),
     ),
 }
 
