@@ -140,6 +140,7 @@ provider_id/model/name
 | <img src="https://github.com/lmstudio-ai.png?size=64" alt="" width="18" height="18"> LM Studio | `lmstudio/...` | Anthropic Messages | none | `http://localhost:1234/v1` |
 | <img src="https://github.com/ggml-org.png?size=64" alt="" width="18" height="18"> llama.cpp | `llamacpp/...` | Anthropic Messages | none | `http://localhost:8080/v1` |
 | <img src="https://github.com/ollama.png?size=64" alt="" width="18" height="18"> Ollama | `ollama/...` | Anthropic Messages | none | `http://localhost:11434` |
+| Amazon Bedrock | `amazon_bedrock/...` | Bedrock ConverseStream | AWS credentials/profile | `https://bedrock-runtime.<region>.amazonaws.com` |
 
 <details>
 <summary><img src="https://cdn.simpleicons.org/nvidia/76B900" alt="" width="18" height="18"> <b>NVIDIA NIM</b></summary>
@@ -236,6 +237,21 @@ MODEL="ollama/llama3.1"
 ```
 
 Use the same tag shown by `ollama list`, for example `ollama/llama3.1:8b`.
+
+</details>
+
+<details>
+<summary><b>Amazon Bedrock</b></summary>
+
+Configure AWS credentials with either `AWS_PROFILE`/`AWS_BEDROCK_PROFILE`, the standard `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` pair, or another AWS credential-chain source available to the process.
+
+```dotenv
+AWS_BEDROCK_REGION="us-east-1"
+AWS_BEDROCK_PROFILE="default"
+MODEL="amazon_bedrock/deepseek.v3.2"
+```
+
+Bedrock model IDs and inference profile IDs vary by account and region. The provider uses Bedrock's model-neutral ConverseStream API and lists streaming text foundation models plus active inference profiles when credentials allow it.
 
 </details>
 

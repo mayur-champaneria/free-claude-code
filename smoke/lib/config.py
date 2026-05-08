@@ -44,6 +44,7 @@ PROVIDER_SMOKE_DEFAULT_MODELS: dict[str, str] = {
     "lmstudio": "lmstudio/local-model",
     "llamacpp": "llamacpp/local-model",
     "ollama": "ollama/llama3.1",
+    "amazon_bedrock": "amazon_bedrock/deepseek.v3.2",
 }
 
 
@@ -185,6 +186,19 @@ class SmokeConfig:
             return bool(self.settings.llamacpp_base_url.strip())
         if provider == "ollama":
             return bool(self.settings.ollama_base_url.strip())
+        if provider == "amazon_bedrock":
+            return bool(
+                self.settings.aws_bedrock_profile.strip()
+                or (
+                    self.settings.aws_access_key_id.strip()
+                    and self.settings.aws_secret_access_key.strip()
+                )
+                or os.getenv("AWS_PROFILE", "").strip()
+                or (
+                    os.getenv("AWS_ACCESS_KEY_ID", "").strip()
+                    and os.getenv("AWS_SECRET_ACCESS_KEY", "").strip()
+                )
+            )
         return False
 
 

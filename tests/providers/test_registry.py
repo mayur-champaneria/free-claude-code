@@ -4,8 +4,10 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
+from config.bedrock import BedrockSettings
 from config.nim import NimSettings
 from config.provider_ids import SUPPORTED_PROVIDER_IDS
+from providers.amazon_bedrock import AmazonBedrockProvider
 from providers.deepseek import DeepSeekProvider
 from providers.exceptions import UnknownProviderTypeError
 from providers.llamacpp import LlamaCppProvider
@@ -27,6 +29,13 @@ def _make_settings(**overrides):
     mock.nvidia_nim_api_key = "test_key"
     mock.open_router_api_key = "test_openrouter_key"
     mock.deepseek_api_key = "test_deepseek_key"
+    mock.aws_bedrock_region = "us-east-1"
+    mock.aws_bedrock_profile = ""
+    mock.aws_bedrock_base_url = ""
+    mock.aws_bedrock_control_base_url = ""
+    mock.aws_access_key_id = "AKIATEST"
+    mock.aws_secret_access_key = "secret"
+    mock.aws_session_token = ""
     mock.lm_studio_base_url = "http://localhost:1234/v1"
     mock.llamacpp_base_url = "http://localhost:8080/v1"
     mock.ollama_base_url = "http://localhost:11434"
@@ -34,6 +43,7 @@ def _make_settings(**overrides):
     mock.open_router_proxy = ""
     mock.lmstudio_proxy = ""
     mock.llamacpp_proxy = ""
+    mock.aws_bedrock_proxy = ""
     mock.provider_rate_limit = 40
     mock.provider_rate_window = 60
     mock.provider_max_concurrency = 5
@@ -42,6 +52,11 @@ def _make_settings(**overrides):
     mock.http_connect_timeout = 10.0
     mock.enable_model_thinking = True
     mock.nim = NimSettings()
+    mock.bedrock = BedrockSettings(
+        region="us-east-1",
+        access_key_id="AKIATEST",
+        secret_access_key="secret",
+    )
     for key, value in overrides.items():
         setattr(mock, key, value)
     return mock
@@ -94,6 +109,7 @@ def test_create_provider_instantiates_each_builtin():
         "lmstudio": LMStudioProvider,
         "llamacpp": LlamaCppProvider,
         "ollama": OllamaProvider,
+        "amazon_bedrock": AmazonBedrockProvider,
     }
 
     with (

@@ -80,6 +80,12 @@ def _create_lqqq(config: ProviderConfig, _settings: Settings) -> BaseProvider:
     return LqqqProvider(config)
 
 
+def _create_amazon_bedrock(config: ProviderConfig, settings: Settings) -> BaseProvider:
+    from providers.amazon_bedrock import AmazonBedrockProvider
+
+    return AmazonBedrockProvider(config, bedrock_settings=settings.bedrock)
+
+
 PROVIDER_FACTORIES: dict[str, ProviderFactory] = {
     "nvidia_nim": _create_nvidia_nim,
     "open_router": _create_open_router,
@@ -89,6 +95,7 @@ PROVIDER_FACTORIES: dict[str, ProviderFactory] = {
     "ollama": _create_ollama,
     "kimi": _create_kimi,
     "lqqq": _create_lqqq,
+    "amazon_bedrock": _create_amazon_bedrock,
 }
 
 if set(PROVIDER_DESCRIPTORS) != set(SUPPORTED_PROVIDER_IDS) or set(

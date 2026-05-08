@@ -11,6 +11,7 @@ from dotenv import dotenv_values
 from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+from .bedrock import BedrockSettings
 from .constants import HTTP_CONNECT_TIMEOUT_DEFAULT
 from .nim import NimSettings
 from .provider_ids import SUPPORTED_PROVIDER_IDS
@@ -118,6 +119,21 @@ class Settings(BaseSettings):
     # ==================== LQQQ Config ====================
     lqqq_api_key: str = Field(default="", validation_alias="LQQQ_API_KEY")
 
+    # ==================== Amazon Bedrock Config ====================
+    aws_bedrock_region: str = Field(default="", validation_alias="AWS_BEDROCK_REGION")
+    aws_bedrock_profile: str = Field(default="", validation_alias="AWS_BEDROCK_PROFILE")
+    aws_bedrock_base_url: str = Field(
+        default="", validation_alias="AWS_BEDROCK_BASE_URL"
+    )
+    aws_bedrock_control_base_url: str = Field(
+        default="", validation_alias="AWS_BEDROCK_CONTROL_BASE_URL"
+    )
+    aws_access_key_id: str = Field(default="", validation_alias="AWS_ACCESS_KEY_ID")
+    aws_secret_access_key: str = Field(
+        default="", validation_alias="AWS_SECRET_ACCESS_KEY"
+    )
+    aws_session_token: str = Field(default="", validation_alias="AWS_SESSION_TOKEN")
+
     # ==================== Messaging Platform Selection ====================
     # Valid: "telegram" | "discord" | "none"
     messaging_platform: str = Field(
@@ -169,6 +185,7 @@ class Settings(BaseSettings):
     llamacpp_proxy: str = Field(default="", validation_alias="LLAMACPP_PROXY")
     kimi_proxy: str = Field(default="", validation_alias="KIMI_PROXY")
     lqqq_proxy: str = Field(default="", validation_alias="LQQQ_PROXY")
+    aws_bedrock_proxy: str = Field(default="", validation_alias="AWS_BEDROCK_PROXY")
 
     # ==================== Provider Rate Limiting ====================
     provider_rate_limit: int = Field(default=40, validation_alias="PROVIDER_RATE_LIMIT")
@@ -259,6 +276,18 @@ class Settings(BaseSettings):
 
     # ==================== NIM Settings ====================
     nim: NimSettings = Field(default_factory=NimSettings)
+
+    @property
+    def bedrock(self) -> BedrockSettings:
+        """Return provider-specific settings for Amazon Bedrock."""
+        return BedrockSettings(
+            region=self.aws_bedrock_region,
+            profile=self.aws_bedrock_profile,
+            access_key_id=self.aws_access_key_id,
+            secret_access_key=self.aws_secret_access_key,
+            session_token=self.aws_session_token,
+            control_base_url=self.aws_bedrock_control_base_url,
+        )
 
     # ==================== Voice Note Transcription ====================
     voice_note_enabled: bool = Field(

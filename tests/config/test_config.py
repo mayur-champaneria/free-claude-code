@@ -81,6 +81,18 @@ class TestSettings:
         settings = Settings()
         assert settings.lm_studio_base_url == "http://custom:5678/v1"
 
+    def test_bedrock_settings_from_env(self, monkeypatch):
+        """Amazon Bedrock env vars are loaded into provider-specific settings."""
+        from config.settings import Settings
+
+        monkeypatch.setenv("AWS_BEDROCK_REGION", "us-west-2")
+        monkeypatch.setenv("AWS_BEDROCK_PROFILE", "bedrock-dev")
+        settings = Settings()
+
+        assert settings.bedrock.region == "us-west-2"
+        assert settings.bedrock.profile == "bedrock-dev"
+        assert settings.bedrock.resolved_region() == "us-west-2"
+
     def test_ollama_base_url_defaults_to_root(self, monkeypatch):
         """OLLAMA_BASE_URL defaults to the Anthropic-compatible Ollama root URL."""
         from config.settings import Settings

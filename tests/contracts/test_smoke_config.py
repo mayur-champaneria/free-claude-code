@@ -23,6 +23,9 @@ def _settings(**overrides):
         "lm_studio_base_url": "",
         "llamacpp_base_url": "",
         "ollama_base_url": "http://localhost:11434",
+        "aws_bedrock_profile": "",
+        "aws_access_key_id": "",
+        "aws_secret_access_key": "",
     }
     values.update(overrides)
     return SimpleNamespace(**values)

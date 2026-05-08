@@ -103,9 +103,9 @@ uv run pytest smoke/product -n 0 -s --tb=short
 - `FCC_SMOKE_PROVIDER_MATRIX`: comma-separated provider prefixes to require.
 - `FCC_SMOKE_MODEL_NVIDIA_NIM`, `FCC_SMOKE_MODEL_OPEN_ROUTER`,
   `FCC_SMOKE_MODEL_DEEPSEEK`, `FCC_SMOKE_MODEL_LMSTUDIO`,
-  `FCC_SMOKE_MODEL_LLAMACPP`, `FCC_SMOKE_MODEL_OLLAMA`: optional per-provider
-  smoke model overrides. Values may include the provider prefix or just the model
-  name for that provider.
+  `FCC_SMOKE_MODEL_LLAMACPP`, `FCC_SMOKE_MODEL_OLLAMA`,
+  `FCC_SMOKE_MODEL_AMAZON_BEDROCK`: optional per-provider smoke model overrides.
+  Values may include the provider prefix or just the model name for that provider.
 - `FCC_SMOKE_TIMEOUT_S`: per-request/subprocess timeout, default `45`.
 - `FCC_SMOKE_CLAUDE_BIN`: Claude CLI executable name, default `claude`.
 - `FCC_SMOKE_TELEGRAM_CHAT_ID`: Telegram chat/user ID for send/edit/delete.

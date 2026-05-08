@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from messaging.platforms.factory import create_messaging_platform
+from providers.amazon_bedrock import AmazonBedrockProvider
 from providers.base import BaseProvider
 from providers.deepseek import DeepSeekProvider
 from providers.llamacpp import LlamaCppProvider
@@ -73,6 +74,7 @@ def test_provider_and_platform_registries_include_advertised_builtins() -> None:
         "lmstudio": LMStudioProvider,
         "llamacpp": LlamaCppProvider,
         "ollama": OllamaProvider,
+        "amazon_bedrock": AmazonBedrockProvider,
     }
     for provider_class in provider_classes.values():
         assert issubclass(provider_class, BaseProvider)

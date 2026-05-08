@@ -23,6 +23,7 @@ LMSTUDIO_DEFAULT_BASE = "http://localhost:1234/v1"
 LLAMACPP_DEFAULT_BASE = "http://localhost:8080/v1"
 OLLAMA_DEFAULT_BASE = "http://localhost:11434"
 LQQQ_DEFAULT_BASE = "https://api.lqqq.cc/v1"
+AWS_BEDROCK_RUNTIME_DEFAULT_BASE = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -122,6 +123,22 @@ PROVIDER_CATALOG: dict[str, ProviderDescriptor] = {
         default_base_url=LQQQ_DEFAULT_BASE,
         proxy_attr="lqqq_proxy",
         capabilities=("chat", "streaming", "tools", "thinking"),
+    ),
+    "amazon_bedrock": ProviderDescriptor(
+        provider_id="amazon_bedrock",
+        transport_type="anthropic_messages",
+        static_credential="aws-default-chain",
+        default_base_url=AWS_BEDROCK_RUNTIME_DEFAULT_BASE,
+        base_url_attr="aws_bedrock_base_url",
+        proxy_attr="aws_bedrock_proxy",
+        capabilities=(
+            "aws",
+            "chat",
+            "streaming",
+            "tools",
+            "thinking",
+            "bedrock_converse",
+        ),
     ),
 }
 
